@@ -37,6 +37,18 @@ def display_results(db, projectId):
             entity_dir_path = os.path.dirname(entity_file_path)
             if not os.path.isdir(entity_dir_path):
                 os.makedirs(entity_dir_path)
+
+            i = dict()
+            i['project'] = projectId
+            i['check'] = "CONFIG"
+            i['value'] = records
+            i['category'] = category
+
+            print "{0}".format(json.dumps(i, indent=4))
+            with open("Report Output/" + object_id_to_directory_name(projectId) + "/report.json", "a") as log:
+                log.write(json.dumps(i, indent=4))
+            log.close()
+
             file = open(entity_file_path, "w+")
             file_content = None
             try:
@@ -61,6 +73,19 @@ def display_results(db, projectId):
                 finding_dir_path = os.path.dirname(finding_file_path)
                 if not os.path.isdir(finding_dir_path):
                     os.makedirs(finding_dir_path)
+
+                i = dict()
+                i['project'] = projectId
+                i['check'] = rule_title
+                i['value'] = findings
+                i['category'] = category
+
+
+                print "{0}".format(json.dumps(i, indent=4))
+                with open("Report Output/" + object_id_to_directory_name(projectId) + "/report.json", "a") as log:
+                    log.write(json.dumps(i, indent=4))
+                log.close()
+
                 file = open(finding_file_path, "w+")
                 file_content = None
                 try:
@@ -68,14 +93,14 @@ def display_results(db, projectId):
                         **{"records": findings, "dropdowns": dropdowns, "header": header, "fields": fields,
                            "text": rule['title']})
                 except Exception as e:
-                    print("Error rendering output file '%s': %s" % (entity_file_path, e))
+                    print("Error rendering output file '%s': %s" % (finding_file_path, e))
                 if file_content:
                     file.write(file_content)
                 file.close()
         except KeyError as ke:
             pass
         except Exception as e:
-            print("Error generating output file '%s': %s" % (entity_file_path, e))
+            print("Error generating output file '%s': %s" % (finding_file_path, e))
 
     # The following would place only categories with findings in the navbar
     # for finding in findings_table.all():

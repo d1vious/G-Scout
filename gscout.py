@@ -152,6 +152,7 @@ def main():
             print("Error: %s" % (msg))
             logging.exception(msg)
     try:
+        from core import config
         if args.project_name :
             list_projects(project_or_org='project-name', specifier=args.project_name)
         elif args.project_id :
