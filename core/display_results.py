@@ -48,15 +48,15 @@ def display_results(db, projectId):
                 os.makedirs(entity_dir_path)
 
             for r in records:
-                value = dict()
+                data = dict()
                 i = dict()
 
                 # cast record from tinydb document to dict
                 for k, v in r.iteritems():
-                    value[k] = v
+                    data[k] = v
                 i['project'] = projectId
                 i['check'] = "configs"
-                i['value'] = value
+                i['data'] = data
                 i['category'] = category
                 i['type'] = 'PASS'
                 reports.append(i)
@@ -92,7 +92,7 @@ def display_results(db, projectId):
                 i = dict()
                 i['project'] = projectId
                 i['check'] = rule_title
-                i['value'] = findings
+                i['data'] = findings
                 i['category'] = category
                 i['type'] = 'WARNING'
                 reports.append(i)
